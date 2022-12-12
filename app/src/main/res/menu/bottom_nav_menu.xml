@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_bridge">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <fragment
+    <item
         android:id="@+id/navigation_bridge"
-        android:name="com.example.android_bridge_and_permissions_example.fragments.BridgeFragment"
-        tools:layout="@layout/fragment_bridge" />
+        android:icon="@drawable/bridge"
+        android:title="桥" />
 
-    <fragment
+    <item
         android:id="@+id/navigation_permission"
-        android:name="com.example.android_bridge_and_permissions_example.fragments.PermissionFragment"
-        tools:layout="@layout/fragment_permission" />
+        android:icon="@drawable/permission"
+        android:title="权限" />
 
-</navigation>
+</menu>
