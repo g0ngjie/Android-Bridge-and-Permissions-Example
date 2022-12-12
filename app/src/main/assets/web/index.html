@@ -1,0 +1,106 @@
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <title>page01</title>
+    <style type="text/css">
+			* {
+				padding: 0px;
+				margin: 0px;
+			}
+
+			.container {
+				padding: 20px;
+			}
+
+			.mt10{
+				margin-top: 10px;
+			}
+		</style>
+</head>
+<body>
+<div class="container">
+    <div>
+        <input type="text" id="content" placeholder="请输入" />
+    </div>
+
+    <div class="mt10">
+        <input type="button" onclick="click1()" value="修改app里输入框内容" />
+    </div>
+
+    <div class="mt10">
+        <input type="button" onclick="click2()" value="清空app里输入框内容" />
+    </div>
+
+</div>
+
+
+<script>
+			//responseData为app回传给h5的数据
+			var callback = function(responseData) {
+				alert(responseData);
+			};
+
+			//修改app里输入框内容
+			function click1() {
+				console.log(123)
+				var content = document.getElementById("content").value;
+				//js调用app的方法
+				window.WebViewJavascriptBridge.callHandler(
+					'modifyAppEditValue', content, callback
+				);
+			}
+
+			//清空app里输入框内容
+			function click2() {
+				console.log(456)
+				//js调用app的方法
+				window.WebViewJavascriptBridge.callHandler(
+					'clearAppEdt', "", callback
+				);
+			}
+
+			//注册事件监听,监听app调用h5(这里只写了android的，ios的没写)
+			function setupWebViewJavascriptBridge(callback) {
+				//android使用
+				if (window.WebViewJavascriptBridge) {
+					callback(WebViewJavascriptBridge)
+				} else {
+					document.addEventListener(
+						'WebViewJavascriptBridgeReady',
+						function() {
+							callback(WebViewJavascriptBridge)
+						},
+						false
+					);
+				}
+			}
+
+			// 注册回调函数，第一次连接时调用 初始化函数
+			setupWebViewJavascriptBridge(function(bridge) {
+				//初始化
+				bridge.init(function(message, responseCallback) {
+					var data = {
+						'Javascript Responds': 'Hello jarry!'
+					};
+					responseCallback(data);
+				});
+
+				//注册app调用js
+				bridge.registerHandler("modifyH5InputValue", function(data, responseCallback) {
+					var content = document.getElementById("content");
+					content.value = data;
+					var responseData = "h5页面输入框内容已被修改啦";
+					responseCallback(responseData);
+				});
+
+				//注册app调用js
+				bridge.registerHandler("clearH5Input", function(data, responseCallback) {
+					var content = document.getElementById("content");
+					content.value = "";
+					var responseData = "h5页面输入框内容已被清空啦";
+					responseCallback(responseData);
+				});
+			})
+		</script>
+</body>
+</html>
