@@ -36,5 +36,17 @@ public class ActivityHome extends AppCompatActivity {
                 }
             }
         });
+
+        View uploadFileBtn = findViewById(R.id.up_file_jump);
+        uploadFileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == uploadFileBtn.getId()) {
+                    Intent intent = new Intent();
+                    intent.setClass(ActivityHome.this, ActivityFile.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 }

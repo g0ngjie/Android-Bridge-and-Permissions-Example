@@ -17,4 +17,10 @@
         android:layout_height="wrap_content"
         android:text="地图权限" />
 
+    <Button
+        android:id="@+id/up_file_jump"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="文件上传" />
+
 </LinearLayout>
