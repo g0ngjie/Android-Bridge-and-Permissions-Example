@@ -10,12 +10,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.MediaStore;
-import android.webkit.GeolocationPermissions;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import java.io.File;
 
@@ -34,31 +31,12 @@ public class ActivityFile extends AppCompatActivity {
         myWebView = (WebView) findViewById( R.id.webview_file );
 
         myWebView.setWebChromeClient( new WebChromeClient(){
-//            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams ) {
-//                if (uploadMessageAboveL != null) {
-//                    uploadMessageAboveL.onReceiveValue(null);
-//                    uploadMessageAboveL = null;
-//                }
-//                uploadMessageAboveL = filePathCallback;
-//                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-//                i.addCategory(Intent.CATEGORY_OPENABLE);
-//                i.setType("image/*");
-//                startActivityForResult( Intent.createChooser(i, "Image Chooser"), 2);
-//                return true;
-//            }
-
-
-//            @Override
-//            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-//                return super.onShowFileChooser(webView, filePathCallback, fileChooserParams);
-//            }
-
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
                 uploadMessageAboveL = filePathCallback;
                 //调用系统相机或者相册
 //                showPhotoChooser();
-                System.out.println("进入文件操作");
+                System.out.println("进入文件系统操作");
                 return true;
             }
         });

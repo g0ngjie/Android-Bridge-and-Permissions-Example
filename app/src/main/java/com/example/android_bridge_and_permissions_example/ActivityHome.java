@@ -13,17 +13,17 @@ public class ActivityHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        View bridgeBtn = findViewById(R.id.bridge_jump);
-        bridgeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == bridgeBtn.getId()) {
-                    Intent intent = new Intent();
-                    intent.setClass(ActivityHome.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
+//        View bridgeBtn = findViewById(R.id.bridge_jump);
+//        bridgeBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (v.getId() == bridgeBtn.getId()) {
+//                    Intent intent = new Intent();
+//                    intent.setClass(ActivityHome.this, MainActivity.class);
+//                    startActivity(intent);
+//                }
+//            }
+//        });
 
         View mapBtn = findViewById(R.id.map_jump);
         mapBtn.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +44,17 @@ public class ActivityHome extends AppCompatActivity {
                 if (v.getId() == uploadFileBtn.getId()) {
                     Intent intent = new Intent();
                     intent.setClass(ActivityHome.this, ActivityFile.class);
+                    startActivity(intent);
+                }
+            }
+        });
+        View bridgeBtn2 = findViewById(R.id.bridge_jump2);
+        bridgeBtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == bridgeBtn2.getId()) {
+                    Intent intent = new Intent();
+                    intent.setClass(ActivityHome.this, ActivityBridge.class);
                     startActivity(intent);
                 }
             }

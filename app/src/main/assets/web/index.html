@@ -7,11 +7,9 @@
 				padding: 0px;
 				margin: 0px;
 			}
-
 			.container {
 				padding: 20px;
 			}
-
 			.mt10{
 				margin-top: 10px;
 			}
@@ -77,10 +75,10 @@
 
 			// 注册回调函数，第一次连接时调用 初始化函数
 			setupWebViewJavascriptBridge(function(bridge) {
-				//初始化
+				//初始
 				bridge.init(function(message, responseCallback) {
 					var data = {
-						'Javascript Responds': 'Hello jarry!'
+						'Javascript Responds': 'Hello '
 					};
 					responseCallback(data);
 				});

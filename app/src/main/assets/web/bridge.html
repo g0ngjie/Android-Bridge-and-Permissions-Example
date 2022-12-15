@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bridge demo</title>
+</head>
+
+<body>
+    桥
+    <button onclick="handleIsLogin()">获取登录状态</button>
+    <button onclick="handleGetVin()">获取车机Vim码</button>
+    <button onclick="handlePing()">传参且有回调</button>
+
+    <script>
+        function handleIsLogin() {
+            window.WebViewJavascriptBridge.callHandler("isLogin", "", (res) => {
+                alert(res)
+            })
+        }
+
+        function handleGetVin() {
+            window.WebViewJavascriptBridge.callHandler("getVinCode", "", (res) => {
+                alert(res)
+            })
+        }
+
+        function handlePing() {
+            window.WebViewJavascriptBridge.callHandler("ping", "我是H5的参数", (res) => {
+                alert(res)
+            })
+        }
+
+        //注册事件监听,监听app调用h5(这里只写了android的，ios的没写)
+        function setupWebViewJavascriptBridge(callback) {
+            //android使用
+            if (window.WebViewJavascriptBridge) {
+                callback(WebViewJavascriptBridge)
+            } else {
+                document.addEventListener(
+                    'WebViewJavascriptBridgeReady',
+                    function () {
+                        callback(WebViewJavascriptBridge)
+                    },
+                    false
+                );
+            }
+        }
+
+        // 注册回调函数，第一次连接时调用 初始化函数
+        setupWebViewJavascriptBridge(function (bridge) {
+            //初始化
+            bridge.init(function (message, responseCallback) {
+                const data = {
+                    'Javascript Responds': 'init !'
+                };
+                responseCallback(data);
+            });
+
+            //注册app调用js
+            bridge.registerHandler("waitByNativeInvoke", function (data, responseCallback) {
+                alert("原生调用H5")
+                responseCallback("ok!");
+            });
+
+        })
+    </script>
+</body>
+
+</html>

@@ -42,7 +42,7 @@ public class ActivityMap extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        myWebView = (WebView) findViewById( R.id.webview );
+        myWebView = findViewById(R.id.webview);
 //        myWebView.clearHistory();
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -61,16 +61,16 @@ public class ActivityMap extends AppCompatActivity {
             }
         });
 
-        webSettings.setDomStorageEnabled( true );
-        webSettings.setAppCacheMaxSize( 1024 * 1024 * 8 );
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setAppCacheMaxSize(1024 * 1024 * 8);
         String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
-        webSettings.setAppCachePath( appCachePath );
-        webSettings.setAllowFileAccess( true );
-        webSettings.setAppCacheEnabled( true );
+        webSettings.setAppCachePath(appCachePath);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAppCacheEnabled(true);
 
 
         webSettings.setAllowFileAccess(true);
-        myWebView.setWebChromeClient( new WebChromeClient(){
+        myWebView.setWebChromeClient(new WebChromeClient() {
 //            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams ) {
 //                if (uploadMessageAboveL != null) {
 //                    uploadMessageAboveL.onReceiveValue(null);
@@ -91,33 +91,34 @@ public class ActivityMap extends AppCompatActivity {
             }
         });
 
-        myWebView.addJavascriptInterface( new AndroidtoJs(), "test" );
+        myWebView.addJavascriptInterface(new AndroidtoJs(), "test");
 
 //        showGPSContacts();
 
-        myWebView.loadUrl( "https://m.amap.com?ts=" + System.currentTimeMillis());
+        myWebView.loadUrl("https://m.amap.com?ts=" + System.currentTimeMillis());
     }
 
     //APP授权的回调
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 100){
+        if (requestCode == 100) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 0) {
                 getLocation();
             } else {
                 showGPSContacts();
             }
-        }else if(requestCode == 1){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Intent intent = new Intent( ActivityMap.this, CaptureActivity.class );
-                startActivityForResult( intent, 111 );
+        } else if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(ActivityMap.this, CaptureActivity.class);
+                startActivityForResult(intent, 111);
             }
         }
     }
 
     //获取地理位置
     LocationManager lm;
-    Boolean positionNum=false;
+    Boolean positionNum = false;
+
     public void showGPSContacts() {
         lm = (LocationManager) ActivityMap.this.getSystemService(ActivityMap.this.LOCATION_SERVICE);
         boolean ok = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -137,6 +138,7 @@ public class ActivityMap extends AppCompatActivity {
             startActivityForResult(intent, 1315);
         }
     }
+
     private void getLocation() {
         LocationManager locationManager;
         String serviceName = Context.LOCATION_SERVICE;
@@ -148,25 +150,30 @@ public class ActivityMap extends AppCompatActivity {
         criteria.setCostAllowed(true);
         criteria.setPowerRequirement(Criteria.POWER_LOW);
         String provider = locationManager.getBestProvider(criteria, true);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) { return; }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         Location location = locationManager.getLastKnownLocation(provider); // 通过GPS获取位置
         updateLocation(location);
-        if(!positionNum){
-            positionNum=true;
+        if (!positionNum) {
+            positionNum = true;
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 8, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     updateLocation(location);
                 }
+
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {
 
                 }
+
                 @SuppressLint("MissingPermission")
                 @Override
                 public void onProviderEnabled(String provider) {
                     updateLocation(lm.getLastKnownLocation(provider));
                 }
+
                 @Override
                 public void onProviderDisabled(String provider) {
                     updateLocation(null);
@@ -174,21 +181,23 @@ public class ActivityMap extends AppCompatActivity {
             });
         }
     }
+
     private void updateLocation(Location location) {
         if (location != null) {
             final double latitude = location.getLatitude();
             final double longitude = location.getLongitude();
-            System.out.println(latitude+":"+longitude);
-            myWebView.post( new Runnable() {
+            System.out.println(latitude + ":" + longitude);
+            myWebView.post(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void run() {
-                    myWebView.evaluateJavascript( "javascript:test.getPositionFn('" + latitude+"','"+longitude+ "')", new ValueCallback<String>() {
+                    myWebView.evaluateJavascript("javascript:test.getPositionFn('" + latitude + "','" + longitude + "')", new ValueCallback<String>() {
                         @Override
-                        public void onReceiveValue(String value) { }
-                    } );
+                        public void onReceiveValue(String value) {
+                        }
+                    });
                 }
-            } );
+            });
         } else {
             System.out.println("无法获取到位置信息");
         }
@@ -198,26 +207,27 @@ public class ActivityMap extends AppCompatActivity {
         @JavascriptInterface
         public void hello(String msg) {
             final String content = msg;
-            myWebView.post( new Runnable() {
+            myWebView.post(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void run() {
-                    myWebView.evaluateJavascript( "javascript:test.helloFn('hello,"+content+"')", new ValueCallback<String>() {
+                    myWebView.evaluateJavascript("javascript:test.helloFn('hello," + content + "')", new ValueCallback<String>() {
                         @Override
-                        public void onReceiveValue(String value) { }
-                    } );
+                        public void onReceiveValue(String value) {
+                        }
+                    });
                 }
-            } );
+            });
         }
 
         //启动扫描二维码
         @JavascriptInterface
         public void scanQRCode(String msg) {
-            if (ContextCompat.checkSelfPermission( ActivityMap.this, android.Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions( ActivityMap.this, new String[]{Manifest.permission.CAMERA}, 1 );
+            if (ContextCompat.checkSelfPermission(ActivityMap.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(ActivityMap.this, new String[]{Manifest.permission.CAMERA}, 1);
             } else {
-                Intent intent = new Intent( ActivityMap.this, CaptureActivity.class );
-                startActivityForResult( intent, 111 );
+                Intent intent = new Intent(ActivityMap.this, CaptureActivity.class);
+                startActivityForResult(intent, 111);
             }
         }
     }

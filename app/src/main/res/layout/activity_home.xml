@@ -4,17 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/bridge_jump"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="桥"
-        />
+<!--    <Button-->
+<!--        android:id="@+id/bridge_jump"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="桥"-->
+<!--        />-->
 
     <Button
         android:id="@+id/map_jump"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    android:layout_height="wrap_content"
         android:text="地图权限" />
 
     <Button
@@ -22,5 +22,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="文件上传" />
+
+    <Button
+        android:id="@+id/bridge_jump2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="桥2" />
 
 </LinearLayout>
