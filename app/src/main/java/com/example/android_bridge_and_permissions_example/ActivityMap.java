@@ -93,6 +93,7 @@ public class ActivityMap extends AppCompatActivity {
 
         myWebView.addJavascriptInterface(new AndroidtoJs(), "test");
 
+//        FIXME: 打开地图权限
 //        showGPSContacts();
 
         myWebView.loadUrl("https://m.amap.com?ts=" + System.currentTimeMillis());
