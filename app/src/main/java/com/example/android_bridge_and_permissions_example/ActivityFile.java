@@ -36,6 +36,7 @@ public class ActivityFile extends AppCompatActivity {
                 uploadMessageAboveL = filePathCallback;
                 //调用系统相机或者相册
 //                showPhotoChooser();
+                openDir();
                 System.out.println("进入文件系统操作");
                 return true;
             }
@@ -44,6 +45,12 @@ public class ActivityFile extends AppCompatActivity {
         myWebView.loadUrl("file:///android_asset/web/uploadFile.html");
     }
 
+    private void openDir() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri mydir = Uri.parse("/sdcard/Recorder_Videos");
+        intent.setDataAndType(mydir,"*/*");
+        startActivity(intent);
+    }
     /**
      * 打开选择文件/相机
      */
